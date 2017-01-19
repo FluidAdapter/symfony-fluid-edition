@@ -1,9 +1,33 @@
 # Learn more about services, parameters and containers at
-# http://symfony.com/doc/current/service_container.html
-parameters:
+# http://symfony.com/doc/current/book/service_container.html
+#parameters:
 #    parameter_name: value
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    AppBundle\Security\FormLoginAuthenticator:
+        class: AppBundle\Security\FormLoginAuthenticator
+        arguments:
+            - "@security.password_encoder"
+            - "@router"
+
+    # AppBundle\Security\ApiTokenAuthenticator:
+    #     class: AppBundle\Security\ApiTokenAuthenticator
+    #     arguments:
+    #         - "AppBundle\Repository\UserRepository"
+
+    AppBundle\Repository\UserRepository:
+        class: AppBundle\Repository\UserRepository
+        factory: [ "@doctrine.orm.default_entity_manager", getRepository ]
+        arguments:
+            - AppBundle:User
+
+    AppBundle\Command\CreateUserCommand:
+        class: AppBundle\Command\CreateUserCommand
+        tags:
+            - { name: console.command }
+        calls:
+            - [setUserManager, ['@AppBundle\Security\UserManager']]
+
+    AppBundle\Security\UserManager:
+        class: AppBundle\Security\UserManager
+        autowire: true
