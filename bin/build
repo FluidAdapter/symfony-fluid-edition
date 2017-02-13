@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cd typo3conf/ext/template/Resources/Public
+yarn install
+./node_modules/.bin/stylus --compress --include-css Styles/Main.styl --out Styles/Main.css

@@ -1,4 +1,5 @@
 <?php
+
 namespace AppBundle\Security;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -62,7 +63,7 @@ class FormLoginAuthenticator extends AbstractFormLoginAuthenticator
 
         return [
             'username' => $username,
-            'password' => $password
+            'password' => $password,
         ];
 
     }

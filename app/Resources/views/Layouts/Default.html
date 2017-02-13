@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8" />
-	<title><f:render section="Title" optional="true">Welcome!</f:render></title>
-	<f:render section="Stylesheets" optional="true" />
+	<meta charset="UTF-8"/>
+	<title>
+		<f:render section="Title" optional="true">Welcome!</f:render>
+	</title>
+	<link rel="stylesheet" href="{f:asset(path: 'bundles/app/Styles/Main.css')}"/>
+	<f:render section="Stylesheets" optional="true"/>
 </head>
 <body>
 
-	<f:render section="Main" />
+<div class="vue">
+	<f:render section="Main"/>
+</div>
 
-	<f:render section="Javascripts" optional="true" />
-
+<script src="{f:asset(path: 'bundles/app/Scripts/Main.compiled.js')}"></script>
+<f:render section="Javascripts" optional="true"/>
 </body>
 </html>

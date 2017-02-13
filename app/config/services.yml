@@ -10,6 +10,12 @@ services:
             - "@security.password_encoder"
             - "@router"
 
+    AppBundle\Security\ApiLoginAuthenticator:
+        class: AppBundle\Security\ApiLoginAuthenticator
+        arguments:
+            - "@security.password_encoder"
+            - "@router"
+
     # AppBundle\Security\ApiTokenAuthenticator:
     #     class: AppBundle\Security\ApiTokenAuthenticator
     #     arguments:
@@ -31,3 +37,14 @@ services:
     AppBundle\Security\UserManager:
         class: AppBundle\Security\UserManager
         autowire: true
+
+    AppBundle\Controller\SecurityController:
+        class: AppBundle\Controller\SecurityController
+        calls:
+            - [setUserManager, ['@AppBundle\Security\UserManager']]
+            - [setContainer, ['@service_container']]
+
+    AppBundle\Messaging\MessagingService:
+            class: AppBundle\Messaging\MessagingService
+            arguments:
+                - '@mailer'

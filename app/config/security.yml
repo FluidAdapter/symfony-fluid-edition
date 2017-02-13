@@ -19,26 +19,25 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-#        api:
-#            pattern: ^/api/
-#            provider: default_provider
-#            guard:
-#                authenticators:
-#                    - app.api_token_authenticator
+        api:
+            pattern: ^/api/login
+            provider: default_provider
+            guard:
+                authenticators:
+                    - AppBundle\Security\ApiLoginAuthenticator
 
         main:
-            pattern:    ^/
+            pattern: ^/
             anonymous: ~
             provider: default_provider
             guard:
                 authenticators:
                     - AppBundle\Security\FormLoginAuthenticator
-            logout:
-                path:   /logout
-                target: /login
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, roles: ROLE_USER }
+        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/reset-password, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/api/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: ROLE_ADMIN }

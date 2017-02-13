@@ -20,7 +20,7 @@ framework:
     validation:      { enable_annotations: true }
     #serializer:      { enable_annotations: true }
     templating:
-        engines: ['twig', 'fluid']
+        engines: ['fluid','twig']
     default_locale:  "%locale%"
     trusted_hosts:   ~
     trusted_proxies: ~

@@ -4,11 +4,17 @@
 parameters:
     database_host:     127.0.0.1
     database_port:     ~
-    database_name:     symfony
+    database_name:     login-brunex-ch
     database_user:     root
-    database_password: ~
+    database_password: root
     # You should uncomment this if you want use pdo_sqlite
     # database_path: "%kernel.root_dir%/data.db3"
+
+    test_database_host: 127.0.0.1
+    test_database_port: null
+    test_database_name: login-brunex-ch-test
+    test_database_user: root
+    test_database_password: root
 
     mailer_transport:  smtp
     mailer_host:       127.0.0.1

@@ -1,6 +1,10 @@
 <?php
+
 namespace AppBundle\Security;
 
+use AppBundle\Error\UnknownUserException;
+use AppBundle\Messaging\MessagingService;
+use AppBundle\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use AppBundle\Entity\User;
@@ -25,6 +29,16 @@ class UserManager
     protected $validator;
 
     /**
+     * @var UserRepository
+     */
+    protected $userRepository;
+
+    /**
+     * @var MessagingService
+     */
+    protected $messagingService;
+
+    /**
      * UserManager constructor.
      * @param EntityManagerInterface $entityManager
      * @param EncoderFactoryInterface $encoderFactory
@@ -33,11 +47,15 @@ class UserManager
     public function __construct(
         EntityManagerInterface $entityManager,
         EncoderFactoryInterface $encoderFactory,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+        UserRepository $userRepository,
+        MessagingService $messagingService
     ) {
         $this->entityManager = $entityManager;
         $this->encoderFactory = $encoderFactory;
         $this->validator = $validator;
+        $this->userRepository = $userRepository;
+        $this->messagingService = $messagingService;
     }
 
     /**
@@ -81,10 +99,30 @@ class UserManager
     }
 
 
+    /**
+     * @param string $user
+     * @param string $password
+     */
     public function encodePassword($user, $password)
     {
         $encoder = $this->encoderFactory->getEncoder($user);
         $hashedPassword = $encoder->encodePassword($password, $user->getSalt());
         $user->setPassword($hashedPassword);
+    }
+
+    /**
+     * @param string $email
+     * @throws UnknownUserException
+     */
+    public function sendPasswordResetEmail($email)
+    {
+        $user = $this->userRepository->findUserByEmail($email);
+        if ($user === null) {
+            throw new UnknownUserException('Unknown E-Mail');
+        }
+        $user->setSecurityTOken(bin2hex(random_bytes(24)));
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+        $this->messagingService->sendPasswordResetEmail($user);
     }
 }

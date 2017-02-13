@@ -48,12 +48,12 @@ class User implements UserInterface
     private $apiToken;
 
     /**
-     * Random string sent to the user email address in order to verify it.
+     * Random token to verify the e-mail and password-reset
      *
      * @var string
      * @ORM\Column(type="string", unique=true, nullable=true)
      */
-    protected $confirmationToken;
+    protected $securityToken;
 
     /**
      * @var boolean
@@ -139,17 +139,17 @@ class User implements UserInterface
     /**
      * @return string
      */
-    public function getConfirmationToken()
+    public function getSecurityTOken()
     {
-        return $this->confirmationToken;
+        return $this->securityToken;
     }
 
     /**
-     * @param string $confirmationToken
+     * @param string $securityToken
      */
-    public function setConfirmationToken($confirmationToken)
+    public function setSecurityTOken($securityToken)
     {
-        $this->confirmationToken = $confirmationToken;
+        $this->securityToken = $securityToken;
     }
 
     /**
