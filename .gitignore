@@ -17,3 +17,4 @@
 /.idea
 /var
 /composer.lock
+/src/AppBundle/Resources/public/node_modules
