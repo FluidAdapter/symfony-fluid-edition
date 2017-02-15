@@ -71,11 +71,11 @@ class ApiLoginAuthenticator extends AbstractFormLoginAuthenticator
 
         $username = $payload['username'];
         if (!isset($payload['username'])) {
-            throw new BadCredentialsException('missing username.');
+            throw new BadCredentialsException('wrong username or password.');
         }
         $request->getSession()->set(Security::LAST_USERNAME, $username);
         if (!isset($payload['password'])) {
-            throw new BadCredentialsException('missing password.');
+            throw new BadCredentialsException('wrong username or password.');
         }
         $password = $payload['password'];
 
@@ -94,7 +94,7 @@ class ApiLoginAuthenticator extends AbstractFormLoginAuthenticator
         $plainPassword = $credentials['password'];
 
         if (!$this->encoder->isPasswordValid($user, $plainPassword)) {
-            throw new BadCredentialsException();
+            throw new BadCredentialsException('wrong username or password.');
         }
 
         return true;

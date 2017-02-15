@@ -15,12 +15,12 @@ class SecurityControllerTest extends WebTestCase
         $client = static::createClient();
 
         $crawler = $client->request('GET', '/api/login');
-        $this->assertEquals('{"message":"missing username."}', $client->getResponse()->getContent());
+        $this->assertEquals('{"message":"wrong username or password."}', $client->getResponse()->getContent());
 
         $crawler = $client->request('GET', '/api/login', [], [], [], json_encode([
             'username' => 'toni'
         ]));
-        $this->assertEquals('{"message":"missing password."}', $client->getResponse()->getContent());
+        $this->assertEquals('{"message":"wrong username or password."}', $client->getResponse()->getContent());
 
         $crawler = $client->request('GET', '/api/login', [], [], [], json_encode([
             'username' => 'toni',

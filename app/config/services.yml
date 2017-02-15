@@ -44,6 +44,13 @@ services:
             - [setUserManager, ['@AppBundle\Security\UserManager']]
             - [setContainer, ['@service_container']]
 
+    AppBundle\Controller\ApiController:
+        class: AppBundle\Controller\ApiController
+        calls:
+            - [setUserManager, ['@AppBundle\Security\UserManager']]
+            - [setUserRepository, ['@AppBundle\Repository\UserRepository']]
+            - [setContainer, ['@service_container']]
+
     AppBundle\Messaging\MessagingService:
             class: AppBundle\Messaging\MessagingService
             arguments:
